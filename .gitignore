@@ -1,0 +1,7 @@
+# Generated output files
+*out
+*.vcd
+memfile_data_after_simulation.hex
+
+# FS ignores
+.DS_Store
