@@ -35,15 +35,18 @@ module processor(   input         clk, reset,
     alu AluUnit(aluOperation, rs1, aluInB, aluResult, zero);
 endmodule
 
+//-------------------------------------------------------------------
 module reg_32bit(input clk, reset, input[31:0] in, output reg[31:0] out);
     always @(posedge clk)
         out <= reset ? 0 : in;
 endmodule
 
+//-------------------------------------------------------------------
 module mux2_32bit(input select, input[31:0] in0, input[31:0] in1, output[31:0] out);
     assign out = select == 0 ? in0 : in1;
 endmodule
 
+//-------------------------------------------------------------------
 module imm_decode(input[2:0] type, input[31:7] ins, output reg[31:0] imm);
     always @(*)
         case (type)
@@ -56,6 +59,7 @@ module imm_decode(input[2:0] type, input[31:7] ins, output reg[31:0] imm);
         endcase
 endmodule
 
+//-------------------------------------------------------------------
 module reg_array(input clk, input[4:0] a1, input[4:0] a2, input[4:0] a3, input we, input[31:0] wd3, output[31:0] rd1, output[31:0] rd2);
     reg[31:0] arr[31:0];
     
@@ -67,6 +71,7 @@ module reg_array(input clk, input[4:0] a1, input[4:0] a2, input[4:0] a3, input w
             arr[a3] <= wd3;
 endmodule
 
+//-------------------------------------------------------------------
 // 0 +, 1 -, 2 &, 3 >>, 4 <, 5 vecadd, 6 vecavg
 module alu(input[2:0] op, input[31:0] inA, inB, output reg[31:0] out, output zero);
     assign zero = out == 0;
@@ -95,14 +100,17 @@ module alu(input[2:0] op, input[31:0] inA, inB, output reg[31:0] out, output zer
         endcase
 endmodule
 
+//-------------------------------------------------------------------
 module vec_sum(input[7:0] inA, inB, output[7:0] out);
     assign out = inA + inB;
 endmodule
 
+//-------------------------------------------------------------------
 module vec_avg(input[7:0] inA, inB, output[7:0] out);
     assign out = ($signed({inA[7], inA}) + $signed({inB[7], inB})) >>> 1;
 endmodule
 
+//-------------------------------------------------------------------
 module control_unit(    input [31:0]    ins,
                         output reg[2:0] insType,
                         output reg[2:0] aluOp,
